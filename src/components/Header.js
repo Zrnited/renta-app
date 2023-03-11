@@ -1,35 +1,40 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Header = () => {
   return (
-    <header className='p-3 bg-customBlue'>
-        <nav className='p-1 bg-slate-500 flex flex-row justify-between'>
-            <h1>renta</h1>
-            <div className='flex flex-row'>
-              <ul className='flex flex-row'>
+    <header className='p-2 shadow-md fixed top-0 left-0 right-0 bg-white z-20'>
+        <nav className='p-1 flex flex-row justify-between items-center lg:justify-around'>
+            <h1 className='uppercase text-customBlue font-extrabold text-xl tracking-wider lg:text-2xl'>renta</h1>
+            <div className='hidden sm:flex sm:flex-row items-center gap-3 lg:gap-10'>
+              <ul className='flex flex-row gap-5 lg:gap-8'>
                 <li>
-                  <Link>
+                  <Link className='hover:text-customBlue transition delay-100'>
                     Insurance
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link className='hover:text-customBlue transition delay-100'>
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link className='hover:text-customBlue transition delay-100'>
                     About
                   </Link>
                 </li>
               </ul>
-              <button>
+              <button className='bg-customBlue py-2 px-5 text-white text-sm rounded-lg hover:opacity-80 transition delay-100 cursor-pointer lg:text-base lg:px-12 lg:py-3'>
                 <Link>
                   Get Started
                 </Link>
               </button>
             </div>
+            {/* Hamburger */}
+            <button className='flex sm:hidden'>
+              <GiHamburgerMenu size={'20px'} />
+            </button>
         </nav>
     </header>
   )
