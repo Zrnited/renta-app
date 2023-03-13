@@ -7,7 +7,7 @@ import { BsFacebook } from "react-icons/bs";
 import { BsTwitter } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 
-const Footer = () => {
+const Footer = ({ scroll }) => {
   return (
     <div className="bg-customBlue mt-10 pt-20 pb-5 relative">
       <div className="text-white px-5">
@@ -120,7 +120,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <button className="absolute bg-white bottom-5 right-5 px-2 py-2 rounded-lg">
+      <button className="absolute bg-white bottom-5 right-5 px-2 py-2 rounded-lg" onClick={scroll}>
         <img src={carret} alt="icon" />
       </button>
     </div>

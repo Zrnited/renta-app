@@ -246,13 +246,18 @@ const Home = () => {
     }
   }
 
+  const scrollToTop = () => {
+    // alert('Hey man! M here')
+    window.scrollTo(0, 0);
+  }
+
   return (
     <>
       <Header />
 
       <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
-        <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-5">
-          <div className="absolute left-5 top-14">
+        <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
+          <div className="absolute left-5 top-12 w-70 lg:top-14 lg:w-96">
             <img src={image2} alt={"stamp"} />
           </div>
           <div className="w-5/6 flex flex-col gap-3">
@@ -264,16 +269,16 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="bg-white p-3 rounded-md w-5/6 md:pb-7 lg:w-2/3">
+          <div className="bg-white p-3 pb-5 rounded-md w-5/6 md:pb-7 lg:w-2/3">
             <div className="flex justify-around font-bold">
               <button
-                className="hover:text-customBlue transition ease-in-out delay-100"
+                className="hover:text-customBlue transition ease-in-out delay-100 lg:text-lg"
                 onClick={search}
               >
                 For sale
               </button>
               <button
-                className="hover:text-customBlue transition ease-in-out delay-100"
+                className="hover:text-customBlue transition ease-in-out delay-100 lg:text-lg"
                 onClick={search}
               >
                 To rent
@@ -287,12 +292,12 @@ const Home = () => {
                 <div className="absolute bg-customBlue rounded-lg h-1 w-1/2 right-0"></div>
               )}
             </div>
-            <div className="flex flex-col gap-2 lg:px-10">
-              <p className="text-sm text-left font-bold md:text-base">
+            <div className="flex flex-col gap-3 lg:px-10">
+              <p className="text-base text-left font-bold md:text-base lg:text-lg">
                 Search city or state
               </p>
               <form
-                className="flex flex-col md:flex-row md:gap-4"
+                className="flex flex-col gap-2 md:flex-row md:gap-4"
                 onSubmit={submitSearch}
               >
                 <input
@@ -484,7 +489,7 @@ const Home = () => {
         </section>
       </main>
 
-      <Footer />
+      <Footer scroll={scrollToTop} />
     </>
   );
 };
