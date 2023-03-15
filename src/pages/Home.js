@@ -371,8 +371,8 @@ const Home = () => {
           })}
         </section>
 
-        <motion.section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">
-          <motion.div data-aos='fade-left' className="flex flex-col md:text-left md:w-390">
+        <section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">
+          <div data-aos='fade-up' className="flex flex-col md:text-left md:w-390">
             <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl">
               We simply offer the best.
             </h1>
@@ -406,12 +406,12 @@ const Home = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div data-aos='fade-right' className="h-auto w-auto md:w-348 lg:w-548">
+          <div data-aos='fade-right' className="h-auto w-auto md:w-348 lg:w-548">
             <img src={image3} alt="family-img" className="w-full h-auto" />
-          </motion.div>
-        </motion.section>
+          </div>
+        </section>
 
         <section className="py-4 flex flex-col gap-5 px-5 sm:px-2 sm:items-center md:flex-row md:flex-wrap md:justify-center lg:mb-10 xl:gap-8">
           {properties?.map((item, key) => {
