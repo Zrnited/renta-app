@@ -21,6 +21,10 @@ import realtor from "../assets/realtor.png";
 import housing from "../assets/housing.png";
 import { BiChevronUp } from "react-icons/bi";
 import { BiChevronDown } from "react-icons/bi";
+import Sidebar from "../components/Sidebar";
+import { motion } from "framer-motion";
+import Aos from "aos";
+import 'aos/dist/aos.css';
 
 const Home = () => {
   const [findOption, setFindOption] = React.useState({
@@ -36,6 +40,8 @@ const Home = () => {
     fifth: false,
     sixth: false
   })
+
+  const [sidebar, setSidebar] = React.useState(false);
 
   const companies = [
     {
@@ -82,6 +88,31 @@ const Home = () => {
       text: "Easily find properties near you or across the country",
     },
   ];
+
+  // const boxVariant = {
+  //   hidden: {
+  //     x: '-100vw'
+  //   },
+  //   visible: {
+  //     x: 0,
+  //     transition: {
+  //       delay: 0.5,
+  //       when: 'beforeChildren'
+  //     }
+  //   },
+  // }
+
+  // const listVariant = {
+  //   hidden: {
+  //     x: -10,
+  //     opacity: 0
+  //   },
+  //   visible: {
+  //     x: 0,
+  //     opacity: 1,
+  //     staggerChildren: 0.2
+  //   }
+  // }
 
   const faqs = [
     {
@@ -251,22 +282,33 @@ const Home = () => {
     window.scrollTo(0, 0);
   }
 
+  if(sidebar){
+    document.body.classList.add('active');
+  } else {
+    document.body.classList.remove('active');
+  }
+
+  React.useEffect(()=>{
+    Aos.init({ duration: 2000});
+  }, []);
+
   return (
     <>
-      <Header />
+      <Header setSidebar={setSidebar} sidebar={sidebar} />
 
+      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
         <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
           <div className="absolute left-5 top-12 w-70 lg:top-14 lg:w-96">
-            <img src={image2} alt={"stamp"} />
+            <motion.img animate={{rotate: [0, 360]}} transition={{repeat: Infinity, type: 'tween', duration: 8 }} src={image2} alt={"stamp"} />
           </div>
           <div className="w-5/6 flex flex-col gap-3">
-            <h1 className="font-bold text-white text-4xl leading-tight tracking-wider lg:text-5xl">
+            <motion.h1 animate={{x: [-300, 0]}} transition={{delay: 0.3, type:'spring'}} className="font-bold text-white text-4xl leading-tight tracking-wider lg:text-5xl">
               Discover the perfect property
-            </h1>
-            <p className="text-customWhite text-sm font-light md:text-lg">
+            </motion.h1>
+            <motion.p animate={{x: [300, 0]}} transition={{delay: 0.3, type:'spring'}} className="text-customWhite text-sm font-light md:text-lg">
               Find real estate to purchase, rent and sell without hassle.
-            </p>
+            </motion.p>
           </div>
 
           <div className="bg-white p-3 pb-5 rounded-md w-5/6 md:pb-7 lg:w-2/3">
@@ -329,8 +371,8 @@ const Home = () => {
           })}
         </section>
 
-        <section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">
-          <div className="flex flex-col md:text-left md:w-390">
+        <motion.section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">
+          <motion.div data-aos='fade-left' className="flex flex-col md:text-left md:w-390">
             <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl">
               We simply offer the best.
             </h1>
@@ -364,12 +406,12 @@ const Home = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="h-auto w-auto md:w-348 lg:w-548">
+          <motion.div data-aos='fade-right' className="h-auto w-auto md:w-348 lg:w-548">
             <img src={image3} alt="family-img" className="w-full h-auto" />
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         <section className="py-4 flex flex-col gap-5 px-5 sm:px-2 sm:items-center md:flex-row md:flex-wrap md:justify-center lg:mb-10 xl:gap-8">
           {properties?.map((item, key) => {
@@ -389,10 +431,10 @@ const Home = () => {
           <div className="mb-5 flex justify-center md:mb-0 lg:hidden">
             <img src={image8} alt="phone-img" />
           </div>
-          <div className="hidden lg:flex lg:h-full lg:justify-center lg:max-w-476">
+          <div data-aos='fade-up' className="hidden lg:flex lg:h-full lg:justify-center lg:max-w-476">
             <img src={image7} alt="phone-img" />
           </div>
-          <div className="pb-5 md:w-450 flex flex-col justify-center md:pb-0">
+          <div data-aos='fade-down' className="pb-5 md:w-450 flex flex-col justify-center md:pb-0">
             <div className="flex flex-col text-center mb-6 items-center gap-3 md:items-start md:mb-4">
               <h1 className="text-white font-bold text-2xl sm:text-3xl">
                 Download the Renta app

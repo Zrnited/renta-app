@@ -6,6 +6,7 @@ import { BsLinkedin } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
 import { BsTwitter } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
+import { motion } from "framer-motion";
 
 const Footer = ({ scroll }) => {
   return (
@@ -120,9 +121,9 @@ const Footer = ({ scroll }) => {
         </div>
       </div>
 
-      <button className="absolute bg-white bottom-5 right-5 px-2 py-2 rounded-lg" onClick={scroll}>
+      <motion.button whileHover={{scale: 1.02}} className="absolute bg-white bottom-5 right-5 px-2 py-2 rounded-lg focus:outline-none" onClick={scroll}>
         <img src={carret} alt="icon" />
-      </button>
+      </motion.button>
     </div>
   );
 };

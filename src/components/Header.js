@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { GiHamburgerMenu } from "react-icons/gi";
+import { motion } from 'framer-motion';
 
-const Header = () => {
+const Header = ({ setSidebar, sidebar }) => {
   return (
     <header className='p-2 shadow-md fixed top-0 left-0 right-0 bg-white z-20'>
         <nav className='p-1 flex flex-row justify-between items-center lg:justify-around'>
@@ -32,9 +33,11 @@ const Header = () => {
               </button>
             </div>
             {/* Hamburger */}
-            <button className='flex sm:hidden'>
+            <motion.button animate={{ rotate: sidebar ? 90 : 0}} className='flex sm:hidden' onClick={()=>{
+              setSidebar(!sidebar);
+            }}>
               <GiHamburgerMenu size={'20px'} />
-            </button>
+            </motion.button>
         </nav>
     </header>
   )
