@@ -33,7 +33,7 @@ const Header = ({ setSidebar, sidebar }) => {
               </button>
             </div>
             {/* Hamburger */}
-            <motion.button animate={{ rotate: sidebar ? 90 : 0}} className='flex sm:hidden' onClick={()=>{
+            <motion.button animate={{ rotate: sidebar ? 90 : 0}} className='flex focus:outline-none sm:hidden' onClick={()=>{
               setSidebar(!sidebar);
             }}>
               <GiHamburgerMenu size={'20px'} />

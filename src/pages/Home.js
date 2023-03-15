@@ -299,10 +299,11 @@ const Home = () => {
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
         <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
-          <div className="absolute left-5 top-12 w-70 lg:top-14 lg:w-96">
+          <div className="mb-3 absolute w-70 transform -translate-y-1/2 top-20 sm:-translate-y-0 sm:left-5 sm:top-12 lg:top-14 lg:w-96">
             <motion.img animate={{rotate: [0, 360]}} transition={{repeat: Infinity, type: 'tween', duration: 8 }} src={image2} alt={"stamp"} />
           </div>
-          <div className="w-5/6 flex flex-col gap-3">
+
+          <div className="w-5/6 flex flex-col gap-3 mt-5 sm:mt-0">
             <motion.h1 animate={{x: [-300, 0]}} transition={{delay: 0.3, type:'spring'}} className="font-bold text-white text-4xl leading-tight tracking-wider lg:text-5xl">
               Discover the perfect property
             </motion.h1>
