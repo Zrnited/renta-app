@@ -89,30 +89,6 @@ const Home = () => {
     },
   ];
 
-  // const boxVariant = {
-  //   hidden: {
-  //     x: '-100vw'
-  //   },
-  //   visible: {
-  //     x: 0,
-  //     transition: {
-  //       delay: 0.5,
-  //       when: 'beforeChildren'
-  //     }
-  //   },
-  // }
-
-  // const listVariant = {
-  //   hidden: {
-  //     x: -10,
-  //     opacity: 0
-  //   },
-  //   visible: {
-  //     x: 0,
-  //     opacity: 1,
-  //     staggerChildren: 0.2
-  //   }
-  // }
 
   const faqs = [
     {
@@ -297,6 +273,7 @@ const Home = () => {
       <Header setSidebar={setSidebar} sidebar={sidebar} />
 
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+      
       <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
         <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
           <div className="mb-3 absolute w-70 transform -translate-y-1/2 top-20 sm:-translate-y-0 sm:left-5 sm:top-12 lg:top-14 lg:w-96">
@@ -358,18 +335,31 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="bg-customGray py-5 flex flex-row flex-wrap justify-center items-center gap-x-10 gap-y-6 px-8 lg:gap-x-16">
-          {companies?.map((company, key) => {
-            return (
-              <div className="items-center justify-center">
-                <img
-                  src={company.image}
-                  alt={company.name}
-                  className={`${company.className}`}
-                />
-              </div>
-            );
-          })}
+        <section className="relative p-10 gap-x-10 gap-y-6 px-8 overflow-hidden bg-customGray">
+          <div className="flex animate absolute left-0 w-400 py-2 px-5 bg-customGray lg:w-200">
+            {companies?.map((company, key) => {
+              return (
+                <div className="flex items-center justify-around w-1/2">
+                  <img
+                    src={company.image}
+                    alt={company.name}
+                    className={`${company.className}`}
+                  />
+                </div>
+              );
+            })}
+            {companies?.map((company, key) => {
+              return (
+                <div className="flex items-center justify-around w-1/2">
+                  <img
+                    src={company.image}
+                    alt={company.name}
+                    className={`${company.className}`}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </section>
 
         <section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">

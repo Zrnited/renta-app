@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
+import { MdClose } from "react-icons/md";
+import { GrClose } from "react-icons/gr";
 
 const Sidebar = ({ sidebar, setSidebar }) => {
   return (
     <aside
       className={
         sidebar
-          ? "absolute top-0 bottom-0 h-full left-0 w-1/2 z-30 shadow-xl bg-customGray p-5 transition-all ease-in-out delay-100 sm:hidden"
-          : "absolute top-0 bottom-0 w-1/2 z-30 bg-customGray -left-full p-5 transition-all ease-in-out delay-100 sm:hidden"
+          ? "fixed top-0 w-full z-30 shadow-xl bg-customGray p-5 transition-all ease-in-out delay-100 sm:hidden"
+          : "fixed left-0 right-0 z-30 bg-customGray -top-full p-5 transition-all ease-in-out delay-100 sm:hidden"
       }
     >
       <div>
@@ -15,8 +18,8 @@ const Sidebar = ({ sidebar, setSidebar }) => {
           renta
         </h1>
         <hr />
-        <div className="flex flex-col gap-8 mt-4">
-          <ul className="flex flex-col text-left gap-2">
+        <div className="flex flex-col gap-4 mt-4">
+          <ul className="flex flex-col text-center gap-2">
             <li className="px-3 py-2 hover:bg-customBlue hover:text-customWhite transition ease-in-out delay-100 rounded-md">
               <Link onClick={()=>setSidebar(false)}>Insurance</Link>
             </li>
@@ -32,6 +35,14 @@ const Sidebar = ({ sidebar, setSidebar }) => {
             <Link>Get Started</Link>
           </button>
         </div>
+      </div>
+
+      <div className="absolute top-1 right-2">
+        <button onClick={()=>{
+          setSidebar(false);
+        }}>
+          <IoMdClose size={'25px'} color="darkred" />
+        </button>
       </div>
     </aside>
   );
