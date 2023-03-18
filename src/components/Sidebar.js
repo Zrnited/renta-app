@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import { MdClose } from "react-icons/md";
-import { GrClose } from "react-icons/gr";
 
 const Sidebar = ({ sidebar, setSidebar }) => {
   return (

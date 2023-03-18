@@ -273,7 +273,7 @@ const Home = () => {
       <Header setSidebar={setSidebar} sidebar={sidebar} />
 
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-      
+
       <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
         <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
           <div className="mb-3 absolute w-70 transform -translate-y-1/2 top-20 sm:-translate-y-0 sm:left-5 sm:top-12 lg:top-14 lg:w-96">
@@ -306,10 +306,14 @@ const Home = () => {
             </div>
             <div className="w-full bg-slate-200 h-1 rounded-md mt-1 mb-3 relative">
               {findOption.sale && (
-                <div className="absolute bg-customBlue rounded-lg h-1 w-1/2 left-0"></div>
+                <div className="absolute bg-slate-200 rounded-lg h-1 w-1/2 left-0 flex justify-center">
+                  <div className="bg-customBlue w-32 rounded-lg z-50 h-full sm:w-40"></div>
+                </div>
               )}
               {findOption.rent && (
-                <div className="absolute bg-customBlue rounded-lg h-1 w-1/2 right-0"></div>
+                <div className="absolute bg-slate-200 rounded-lg h-1 w-1/2 right-0 flex justify-center">
+                  <div className="bg-customBlue w-32 rounded-lg z-50 h-full sm:w-40"></div>
+                </div>
               )}
             </div>
             <div className="flex flex-col gap-3 lg:px-10">
