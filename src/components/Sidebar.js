@@ -29,7 +29,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
             </li>
           </ul>
 
-          <button className="bg-customBlue py-2 px-5 text-white text-base rounded-lg hover:opacity-80 transition delay-100 cursor-pointer">
+          <button className="bg-customBlue py-4 px-5 text-white text-base rounded-lg hover:opacity-80 transition delay-100 cursor-pointer">
             <Link>Get Started</Link>
           </button>
         </div>

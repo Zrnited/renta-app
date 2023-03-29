@@ -21,10 +21,14 @@ import realtor from "../assets/realtor.png";
 import housing from "../assets/housing.png";
 import { BiChevronUp } from "react-icons/bi";
 import { BiChevronDown } from "react-icons/bi";
+// import { BiChat } from "react-icons/bi";
 import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import Aos from "aos";
-import 'aos/dist/aos.css';
+import "aos/dist/aos.css";
+import Talk from "talkjs";
+// import ChatEngine from "../components/ChatEngine";
+// import axios from "axios";
 
 const Home = () => {
   const [findOption, setFindOption] = React.useState({
@@ -38,11 +42,27 @@ const Home = () => {
     third: false,
     fourth: false,
     fifth: false,
-    sixth: false
-  })
+    sixth: false,
+  });
 
+  const [supportForm, setSupportForm] = React.useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+  });
+  const [error, setError] = React.useState(false);
   const [sidebar, setSidebar] = React.useState(false);
-
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+  const [welcome, setWelcome] = React.useState(true);
+  const [loader, setLoader] = React.useState(false);
+  const [chat, setChat] = React.useState(false);
+  // console.log(visible);
+  const [talkLoaded, markTalkLoaded] = React.useState(false);
+  Talk.ready.then(()=>{
+    markTalkLoaded(true);
+  })
+  const chatboxEL = React.useRef();
   const companies = [
     {
       image: zoopla,
@@ -89,51 +109,123 @@ const Home = () => {
     },
   ];
 
-
   const faqs = [
     {
       question: "What is Renta?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-      name: 'first',
-      state: faQuestions.first
+      name: "first",
+      state: faQuestions.first,
     },
     {
       question: "When was Renta created?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-        name: 'second',
-        state: faQuestions.second
+      name: "second",
+      state: faQuestions.second,
     },
     {
       question: "What is the aim of Renta?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-      name: 'third',
-      state: faQuestions.third
+      name: "third",
+      state: faQuestions.third,
     },
     {
       question: "What is Renta capable of?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-      name: 'fourth',
-      state: faQuestions.fourth
+      name: "fourth",
+      state: faQuestions.fourth,
     },
     {
       question: "Can I invest in Renta?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-      name: 'fifth',
-      state: faQuestions.fifth
+      name: "fifth",
+      state: faQuestions.fifth,
     },
     {
       question: "How may i contact Renta?",
       answer:
         "Lorem ipsum dolor isit gtera hgdtsj nnagsr huter kassdn gstteya ldhyst ehhd ahys sllkf wyets jjuye sksnc lkos sooelfh msinfht sjahhs dhdggsts ammshfn gatsrre sbbagst",
-      name: 'sixth',
-      state: faQuestions.sixth
+      name: "sixth",
+      state: faQuestions.sixth,
     },
   ];
+
+  // get or create users
+  // const getOrCreateUser = (callback) => {
+  //   axios
+  //     .put(
+  //       "https://api.chatengine.io/users/",
+  //       {
+  //         "username": `${supportForm.firstName} ${supportForm.lastName}`,
+  //         "secret": "pass123",
+  //         "email": supportForm.email,
+  //       },
+  //       {
+  //         headers: {
+  //           "PRIVATE-KEY": process.env.REACT_APP_RENTA_CE_PRIVATE_KEY,
+  //           "Content-Type": "application/json"
+  //         },
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .then((r) => callback(r.data));
+  // };
+
+  // const getOrCreateChats = (callback) => {
+  //   axios
+  //     .put(
+  //       "https://api.chatengine.io/chats/",
+  //       {
+  //         "usernames": ["Kolawole Mayowa", supportForm.email],
+  //         "is_direct_chat": true,
+  //       },
+  //       {
+  //         headers: {
+  //           "Pivate-Key": process.env.REACT_APP_RENTA_CE_PRIVATE_KEY
+  //         },
+  //       }
+  //     )
+  //     .then((r) => callback(r.data));
+  // };
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    if (error) setError(false);
+    if (
+      supportForm.email !== "" &&
+      supportForm.firstName !== "" &&
+      supportForm.lastName !== ""
+    ) {
+      setWelcome(false);
+      setLoader(true);
+      setInterval(() => {
+        setLoader(false);
+      }, 2000);
+
+      // getOrCreateUser((user) => {
+      //   getOrCreateChats((chat) => console.log("success", chat));
+      // });
+    } else {
+      setError(true);
+    }
+  };
+
+  const handleChanges = (e) => {
+    //do something
+    const { value, name } = e.target;
+    setSupportForm((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
 
   const search = (e) => {
     const current = e.target.innerHTML;
@@ -177,9 +269,9 @@ const Home = () => {
 
   const showFaq = (e) => {
     // console.log(e);
-    const current = e.name
-    if(current === 'first'){
-      setFaQuestions((prevState)=>{
+    const current = e.name;
+    if (current === "first") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: !prevState.first,
@@ -187,11 +279,11 @@ const Home = () => {
           third: false,
           fourth: false,
           fifth: false,
-          sixth: false
-        }
-      })
-    } else if (current === 'second'){
-      setFaQuestions((prevState)=>{
+          sixth: false,
+        };
+      });
+    } else if (current === "second") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: false,
@@ -199,11 +291,11 @@ const Home = () => {
           third: false,
           fourth: false,
           fifth: false,
-          sixth: false
-        }
-      })
-    } else if (current === 'third'){
-      setFaQuestions((prevState)=>{
+          sixth: false,
+        };
+      });
+    } else if (current === "third") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: false,
@@ -211,11 +303,11 @@ const Home = () => {
           third: !prevState.third,
           fourth: false,
           fifth: false,
-          sixth: false
-        }
-      })
-    } else if (current === 'fourth'){
-      setFaQuestions((prevState)=>{
+          sixth: false,
+        };
+      });
+    } else if (current === "fourth") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: false,
@@ -223,11 +315,11 @@ const Home = () => {
           third: false,
           fourth: !prevState.fourth,
           fifth: false,
-          sixth: false
-        }
-      })
-    } else if (current === 'fifth'){
-      setFaQuestions((prevState)=>{
+          sixth: false,
+        };
+      });
+    } else if (current === "fifth") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: false,
@@ -235,11 +327,11 @@ const Home = () => {
           third: false,
           fourth: false,
           fifth: !prevState.fifth,
-          sixth: false
-        }
-      })
-    } else if (current === 'sixth'){
-      setFaQuestions((prevState)=>{
+          sixth: false,
+        };
+      });
+    } else if (current === "sixth") {
+      setFaQuestions((prevState) => {
         return {
           ...prevState,
           first: false,
@@ -247,26 +339,79 @@ const Home = () => {
           third: false,
           fourth: false,
           fifth: false,
-          sixth: !prevState.sixth
-        }
-      })
+          sixth: !prevState.sixth,
+        };
+      });
     }
-  }
+  };
 
   const scrollToTop = () => {
     // alert('Hey man! M here')
     window.scrollTo(0, 0);
-  }
+  };
 
-  if(sidebar){
-    document.body.classList.add('active');
+  if (sidebar || visible) {
+    document.body.classList.add("active");
   } else {
-    document.body.classList.remove('active');
+    document.body.classList.remove("active");
   }
 
-  React.useEffect(()=>{
-    Aos.init({ duration: 2000});
+  React.useEffect(() => {
+    Aos.init({ duration: 2000 });
   }, []);
+
+  // React.useEffect(()=>{
+  //   const handleClickOutside = (event) =>{
+  //     if(ref.current && !ref.current.contains(event.target)){
+  //       setVisible(false);
+  //     }
+  //   }
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [ref])
+
+  // Talk JS Integrations 
+  
+  React.useEffect(()=>{
+    if(talkLoaded){
+      const adminUser = new Talk.User({
+        id: '1',
+        name: 'Henry Mill',
+        email: 'henrymill@example.com',
+        welcomeMessage: 'Hello!',
+        role: 'admin'
+      })
+      const otherUser = new Talk.User({
+        id: '2',
+        name: 'Jessica Wells',
+        email: 'jessicawells@example.com',
+        welcomeMessage: 'Hello!',
+        role: 'default'
+      })
+
+      const session = new Talk.Session({
+        appId: process.env.REACT_APP_TALK_TEST_ID,
+        me: otherUser
+      })
+
+      const conversationId = Talk.oneOnOneId(adminUser, otherUser);
+      const conversation = session.getOrCreateConversation(conversationId);
+      conversation.setParticipant(adminUser);
+      conversation.setParticipant(otherUser);
+
+      const popup = session.createPopup();
+      popup.select(conversation);
+      popup.mount({show: false});
+      const button = document.getElementById('btn-getInTouch');
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        popup.show();
+      });
+      return ()=> session.destroy();
+    }
+  }, [talkLoaded])
 
   return (
     <>
@@ -274,17 +419,30 @@ const Home = () => {
 
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
 
-      <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg">
+      <main className="mt-8 lg:mt-16 flex flex-col justify-center bg-bg relative">
         <section className="h-660 bg-herosection bg-cover bg-center relative flex flex-col items-center justify-center gap-7">
           <div className="mb-3 absolute w-70 transform -translate-y-1/2 top-20 sm:-translate-y-0 sm:left-5 sm:top-12 lg:top-14 lg:w-96">
-            <motion.img animate={{rotate: [0, 360]}} transition={{repeat: Infinity, type: 'tween', duration: 8 }} src={image2} alt={"stamp"} />
+            <motion.img
+              animate={{ rotate: [0, 360] }}
+              transition={{ repeat: Infinity, type: "tween", duration: 8 }}
+              src={image2}
+              alt={"stamp"}
+            />
           </div>
 
           <div className="w-5/6 flex flex-col gap-3 mt-5 sm:mt-0">
-            <motion.h1 animate={{x: [-300, 0]}} transition={{delay: 0.3, type:'spring'}} className="font-bold text-white text-4xl leading-tight tracking-wider lg:text-5xl">
+            <motion.h1
+              animate={{ x: [-300, 0] }}
+              transition={{ delay: 0.3, type: "spring" }}
+              className="font-bold text-white text-4xl leading-tight tracking-wider lg:text-5xl"
+            >
               Discover the perfect property
             </motion.h1>
-            <motion.p animate={{x: [300, 0]}} transition={{delay: 0.3, type:'spring'}} className="text-customWhite text-sm font-light md:text-lg">
+            <motion.p
+              animate={{ x: [300, 0] }}
+              transition={{ delay: 0.3, type: "spring" }}
+              className="text-customWhite text-sm font-light md:text-lg"
+            >
               Find real estate to purchase, rent and sell without hassle.
             </motion.p>
           </div>
@@ -367,7 +525,10 @@ const Home = () => {
         </section>
 
         <section className="px-5 py-5 flex flex-col items-center gap-8 md:flex-row md:justify-around">
-          <div data-aos='fade-up' className="flex flex-col md:text-left md:w-390">
+          <div
+            data-aos="fade-up"
+            className="flex flex-col md:text-left md:w-390"
+          >
             <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl">
               We simply offer the best.
             </h1>
@@ -403,7 +564,10 @@ const Home = () => {
             </div>
           </div>
 
-          <div data-aos='fade-right' className="h-auto w-auto md:w-348 lg:w-548">
+          <div
+            data-aos="fade-right"
+            className="h-auto w-auto md:w-348 lg:w-548"
+          >
             <img src={image3} alt="family-img" className="w-full h-auto" />
           </div>
         </section>
@@ -426,10 +590,16 @@ const Home = () => {
           <div className="mb-5 flex justify-center md:mb-0 lg:hidden">
             <img src={image8} alt="phone-img" />
           </div>
-          <div data-aos='fade-up' className="hidden lg:flex lg:h-full lg:justify-center lg:max-w-476">
+          <div
+            data-aos="fade-up"
+            className="hidden lg:flex lg:h-full lg:justify-center lg:max-w-476"
+          >
             <img src={image7} alt="phone-img" />
           </div>
-          <div data-aos='fade-down' className="pb-5 md:w-450 flex flex-col justify-center md:pb-0">
+          <div
+            data-aos="fade-down"
+            className="pb-5 md:w-450 flex flex-col justify-center md:pb-0"
+          >
             <div className="flex flex-col text-center mb-6 items-center gap-3 md:items-start md:mb-4">
               <h1 className="text-white font-bold text-2xl sm:text-3xl">
                 Download the Renta app
@@ -480,17 +650,20 @@ const Home = () => {
           <div className="mt-5 flex flex-col items-center gap-5 lg:px-10 lg:py-5 lg:grid lg:grid-cols-2 lg:align-items-center xl:justify-center">
             {faqs?.map((faq, index) => {
               return (
-                <div key={index} className="w-90 bg-white py-5 px-5 rounded-lg lg:w-full lg:flex lg:flex-col">
+                <div
+                  key={index}
+                  className="w-90 bg-white py-5 px-5 rounded-lg lg:w-full lg:flex lg:flex-col"
+                >
                   <div className="flex flex-row font-bold justify-between text-lg lg:w-full">
                     <h1>{faq.question}</h1>
-                    <i className="cursor-pointer" onClick={()=>showFaq(faq)}>
+                    <i className="cursor-pointer" onClick={() => showFaq(faq)}>
                       {!faq.state ? <BiChevronDown /> : <BiChevronUp />}
                     </i>
                   </div>
                   {faq.state && <hr />}
-                  {faq.state && <p className="text-left text-justify mt-2">
-                    {faq.answer}
-                  </p>}
+                  {faq.state && (
+                    <p className="text-left text-justify mt-2">{faq.answer}</p>
+                  )}
                 </div>
               );
             })}
@@ -499,16 +672,21 @@ const Home = () => {
 
         <section className="bg-customBlue py-10 flex flex-col items-center md:flex-row md:justify-around lg:px-5 lg:justify-around lg:w-95 lg:rounded-lg place-self-center">
           <div className="hidden md:flex md:items-center">
-            <img src={image9} alt='img' />
+            <img src={image9} alt="img" />
           </div>
           <div className="flex flex-col items-center">
             <div className="w-80 flex flex-col gap-4">
-              <h1 className="text-customGold font-bold text-3xl">Join Waitlist</h1>
-              <p className="text-white tracking-wider">Be amongst the pioneers of Renta, join the waitlist to get started.</p>
+              <h1 className="text-customGold font-bold text-3xl">
+                Join Waitlist
+              </h1>
+              <p className="text-white tracking-wider">
+                Be amongst the pioneers of Renta, join the waitlist to get
+                started.
+              </p>
             </div>
             <div className="bg-customGray h-53 flex flex-row items-center justify-between pl-3 pr-0.5 w-90 rounded-lg mt-10">
-              <img src={mail} alt='icon' />
-              <input 
+              <img src={mail} alt="icon" />
+              <input
                 placeholder="Enter your email address"
                 className="h-full px-2 bg-customGray w-4/5 focus:outline-none"
               />
@@ -518,13 +696,31 @@ const Home = () => {
             </div>
           </div>
           <div className="hidden lg:items-center lg:flex">
-            <img 
-              src={arrow}
-              alt='icon'
-            />
+            <img src={arrow} alt="icon" />
           </div>
         </section>
       </main>
+
+      {/* chat client */}
+      <div id="btn-getInTouch"></div>
+      {/* <ChatEngine
+        visible={visible}
+        supportForm={supportForm}
+        handleChanges={handleChanges}
+        handleSubmitForm={handleSubmitForm}
+        error={error}
+        welcome={welcome}
+        loader={loader}
+        chat={chat}
+      />
+      <button
+        className="fixed bottom-10 right-5 bg-customBlue rounded-full text-white z-20 p-4 opacity-50 hover:opacity-100 transition-all ease-in-out delay-100"
+        onClick={() => setVisible(!visible)}
+        ref={ref}
+      >
+        <BiChat size={"22px"} />
+      </button> */}
+      {/* chat cient ends */}
 
       <Footer scroll={scrollToTop} />
     </>
